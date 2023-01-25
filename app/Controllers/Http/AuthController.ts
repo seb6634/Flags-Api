@@ -36,4 +36,10 @@ export default class AuthController {
 
     return response.ok(user) // 200 OK
   }
+
+  public async logout({ auth, response }: HttpContextContract) {
+    await auth.logout()
+
+    return response.noContent() // 204 NO CONTENT
+  }
 }
