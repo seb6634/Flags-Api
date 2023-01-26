@@ -30,6 +30,7 @@ export default class StoreUserValidator {
     ]),
     username: schema.string({ trim: true }),
     password: schema.string(),
+    favoritesCountries: schema.string({ trim: true }),
   })
 
   /**
