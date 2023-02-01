@@ -30,8 +30,9 @@ export default class AuthController {
   }
 
   public async update({ auth, request, response }: HttpContextContract) {
-    const payload = await request.validate(UpdateUserValidator)
-
+    console.log('request:', request.body())
+    // const payload = await request.validate(UpdateUserValidator)
+    const payload = request.body().partialUser
     const user = await auth.user!.merge(payload).save()
 
     return response.ok(user) // 200 OK

@@ -31,6 +31,9 @@ export default class UpdateUserValidator {
     ]),
     username: schema.string.optional({ trim: true }),
     password: schema.string.optional(),
+    favorites_countries: schema.string.optional({ trim: true }),
+    theme: schema.string.optional({ trim: true }),
+    best_score: schema.number.optional([rules.range(0, 1000)]),
   })
 
   /**

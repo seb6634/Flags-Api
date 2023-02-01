@@ -19,6 +19,12 @@ export default class User extends BaseModel {
   public favoritesCountries: string | null
 
   @column()
+  public theme: string | null
+
+  @column()
+  public best_score: number | null
+
+  @column()
   public rememberMeToken: string | null
 
   @column.dateTime({ autoCreate: true })
