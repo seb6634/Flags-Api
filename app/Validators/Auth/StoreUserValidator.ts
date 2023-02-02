@@ -28,8 +28,8 @@ export default class StoreUserValidator {
       rules.email(),
       rules.unique({ table: 'users', column: 'email ' }),
     ]),
-    username: schema.string({ trim: true }),
-    password: schema.string(),
+    username: schema.string({ trim: true }, [rules.minLength(3)]),
+    password: schema.string({}, [rules.minLength(8)]),
   })
 
   /**
@@ -43,5 +43,9 @@ export default class StoreUserValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'email': 'Email invalide.',
+    'password.regex': 'Le mot de passe doit contenir minimum huit caractères.',
+    'username.minLength': "Le nom d'utilisateur doit contenir au moins 3 caractères.",
+  }
 }
