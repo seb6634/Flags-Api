@@ -44,7 +44,8 @@ const corsConfig: CorsConfig = {
   |                     one of the above values.
   |
   */
-  origin: '*',
+  origin: 'https://search-and-play-with-countries.netlify.app',
+  // origin: '*',
 
   /*
   |--------------------------------------------------------------------------
