@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node ace serve --watch",
     "build": "node ace build --production",
-    "build:digitalocean": "npm install --production=false && npm run build && npm ci && node build/ace make:migration --force",
+    "build:digitalocean": "npm install --production=false && npm run build && npm ci",
     "start": "node server.js",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write ."
