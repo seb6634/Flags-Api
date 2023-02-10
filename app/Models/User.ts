@@ -22,6 +22,9 @@ export default class User extends BaseModel {
   public theme: string | null
 
   @column()
+  public avatar: string | null
+
+  @column()
   public best_score: number | null
 
   @column()
