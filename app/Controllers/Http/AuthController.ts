@@ -46,4 +46,20 @@ export default class AuthController {
 
     return response.noContent() // 204 NO CONTENT
   }
+
+  public async deleteUser({ auth, response }) {
+    const user = await User.find(auth.user.id)
+
+    if (!user) {
+      return response.status(404).json({
+        message: 'User not found',
+      })
+    }
+
+    await user.delete()
+
+    return response.status(200).json({
+      message: 'User deleted successfully',
+    })
+  }
 }
