@@ -28,7 +28,7 @@ export default class User extends BaseModel {
   public best_score: number | null
 
   @column()
-  public score_sharing: boolean | null
+  public score_sharing: string | null
 
   @column()
   public rememberMeToken: string | null
