@@ -65,9 +65,11 @@ export default class AuthController {
 
   public async bestScore({ response }: HttpContextContract) {
     const users = await User.query().orderBy('best_score', 'desc')
-    const usersAllowShareScores = users.filter(
-      (user) => user.best_score !== null && user.score_sharing === true
-    )
+
+    const usersWithBestScore = users.filter((user) => user.best_score !== null)
+
+    const usersAllowShareScores = usersWithBestScore.filter((user) => user.score_sharing === 'true')
+
     const partialUsers = usersAllowShareScores.map((user) => {
       return {
         username: user.username,

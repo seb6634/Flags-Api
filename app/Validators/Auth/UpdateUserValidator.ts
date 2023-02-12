@@ -35,7 +35,7 @@ export default class UpdateUserValidator {
     theme: schema.string.optional({ trim: true }),
     avatar: schema.string.optional({ trim: true }),
     best_score: schema.number.optional([rules.range(0, 1000)]),
-    score_sharing: schema.boolean.optional(),
+    score_sharing: schema.string.optional(),
   })
 
   /**
