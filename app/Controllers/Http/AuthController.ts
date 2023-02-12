@@ -62,4 +62,19 @@ export default class AuthController {
       message: 'User deleted successfully',
     })
   }
+
+  public async bestScore({ response }: HttpContextContract) {
+    const users = await User.query().orderBy('best_score', 'desc')
+    const usersAllowShareScores = users.filter(
+      (user) => user.best_score !== null && user.score_sharing === true
+    )
+    const partialUsers = usersAllowShareScores.map((user) => {
+      return {
+        username: user.username,
+        best_score: user.best_score,
+      }
+    })
+
+    return response.ok(partialUsers)
+  }
 }
