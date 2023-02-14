@@ -31,3 +31,7 @@ Route.get('user', 'AuthController.me').middleware(['auth'])
 Route.get('users/best-score', 'AuthController.bestScore').middleware(['auth'])
 Route.put('users', 'AuthController.update').middleware(['auth'])
 Route.delete('user', 'AuthController.deleteUser').middleware(['auth'])
+
+Route.get('game/start', 'GamesController.startGame').middleware(['auth'])
+Route.get('game/question/:gameId', 'GamesController.generateQuestion').middleware(['auth'])
+Route.get('game/check-answer/:id/:cca3', 'GamesController.checkAnswer').middleware(['auth'])
