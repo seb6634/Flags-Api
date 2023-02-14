@@ -74,6 +74,7 @@ export default class AuthController {
       return {
         username: user.username,
         best_score: user.best_score,
+        avatar: user.avatar,
       }
     })
 
