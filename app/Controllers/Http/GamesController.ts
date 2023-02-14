@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 const NodeCache = require('node-cache')
 
 const COUNTRIES_API_URL = 'https://restcountries.com/v3.1'
-const GAME_DURATION = 20
+const GAME_DURATION = 60
 const CACHE_DURATION = GAME_DURATION
 const cache = new NodeCache()
 
