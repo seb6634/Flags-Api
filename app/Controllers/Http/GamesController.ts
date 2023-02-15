@@ -20,6 +20,7 @@ export default class GamesController {
         id: auth.user!.id,
         score: 0,
         duration: CACHE_DURATION,
+        usedCountries: [],
       }
 
       cache.set(`game_${game.id}`, game, CACHE_DURATION)
@@ -40,7 +41,19 @@ export default class GamesController {
     }
 
     try {
-      const filteredCountries = cache.get(`countries_${gameId}`)
+      const { usedCountries } = game
+      const allCountries = cache.get(`countries_${gameId}`)
+      const filteredCountries = allCountries.filter(
+        (country: any) =>
+          country.translations.fra.common.length < 30 && !usedCountries.includes(country.cca3)
+      )
+
+      if (filteredCountries.length < 4) {
+        game.usedCountries = []
+        const { data: countries } = await axios.get(`${COUNTRIES_API_URL}/all`)
+        cache.set(`game_${gameId}`, countries, CACHE_DURATION)
+      }
+
       const shuffledData = filteredCountries.sort(() => Math.random() - 0.5)
       const randomCountries = shuffledData.slice(0, 4).map((country: any) => ({
         flag: country.flags.png,
@@ -62,6 +75,10 @@ export default class GamesController {
 
       cache.set(questionData.id, questionData, CACHE_DURATION)
 
+      // Add used country to game's usedCountries array
+      game.usedCountries.push(correctAnswer)
+      cache.set(`game_${gameId}`, game, CACHE_DURATION)
+
       const randomCountriesWithOnlyName = randomCountries.map((country) => ({
         name: country.name,
         cca3: country.cca3,
@@ -75,7 +92,7 @@ export default class GamesController {
 
       return response.ok(responsePayload)
     } catch (err) {
-      return response.status(500).send('An error occurred while retrieving the list of countries')
+      return response.status(500).send('An error occurred while generating the question')
     }
   }
 
