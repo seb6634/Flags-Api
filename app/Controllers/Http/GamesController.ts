@@ -102,8 +102,8 @@ export default class GamesController {
     if (cca3 === correctAnswer) {
       game.score++
       cache.set(`game_${auth.user!.id}`, game, CACHE_DURATION)
-
-      if (auth.user?.best_score && auth.user.best_score < game.score) {
+      if (Number(auth.user!.best_score) < game.score) {
+        console.log('game.score:', game.score)
         try {
           const user = await auth.user!.merge({ best_score: game.score }).save()
           console.log('user:', user.best_score)
@@ -111,13 +111,8 @@ export default class GamesController {
           console.log(error)
         }
       }
-      return response.ok({ correct: true, score: game.score })
-    } else {
-      return response.ok({
-        correct: false,
-        score: game.score,
-        correctAnswer: correctAnswer,
-      })
+
+      return response.ok({ score: game.score })
     }
   }
 }
