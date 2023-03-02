@@ -4,12 +4,44 @@ import LoginValidator from 'App/Validators/Auth/LoginValidator'
 import StoreUserValidator from 'App/Validators/Auth/StoreUserValidator'
 import UpdateUserValidator from 'App/Validators/Auth/UpdateUserValidator'
 import { incorrectCredentials } from 'Config/errorMessages'
+import Env from '@ioc:Adonis/Core/Env'
 
+const nodemailer = require('nodemailer')
+
+const transporter = nodemailer.createTransport({
+  host: 'mail.gmx.com',
+  port: 587,
+  tls: {
+    ciphers: 'SSLv3',
+    rejectUnauthorized: false,
+  },
+  debug: true,
+  auth: {
+    user: Env.get('EMAIL_FROM'),
+    pass: Env.get('EMAIL_PASSWORD'),
+  },
+})
+
+const mailOptions = {
+  from: Env.get('EMAIL_FROM'),
+  to: Env.get('EMAIL_TO'),
+  subject: "Nouveau compte d'utilisateur créé sur Countries API",
+  text: '',
+}
 export default class AuthController {
   public async register({ request, response }: HttpContextContract) {
     const payload = await request.validate(StoreUserValidator)
 
     const user = await User.create(payload)
+    mailOptions.text = `Utilisateur : ${user.username} - ${user.email}`
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error)
+      } else {
+        console.log('Email envoyé : ' + info.response)
+      }
+    })
 
     return response.created(user) // 201 CREATED
   }
